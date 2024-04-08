@@ -1,0 +1,337 @@
+{
+  "data": {
+    "id": 892,
+    "name": "Weekend Basketball for advanced players",
+    "external_key": "cf47f7bc-345f-4d0a-95d1-ac828970887b",
+    "sku_code": "SKC844AC",
+    "full_name": "SKC844AC - Kaunas - Drobės g. - Age groups: 3,5,7 - Advanced - Basketball for senior infants - Saturday (15:00 - 16:00), Sunday (15:00 - 16:00) - 2023-09-30/2024-05-26",
+    "activity": {
+      "id": 142,
+      "external_key": "c62d4bf1-81c6-4c50-b649-638e20203b7b",
+      "name": "Basketball for senior infants",
+      "activity_type": "group",
+      "description": "<p>Our senior infants basketball group is a fantastic opportunity for your child to explore the exciting world of basketball in a supportive and encouraging environment. Tailored specifically for children at the senior infants level, our program focuses on developing fundamental skills while fostering a love for the game.</p><p><span style=\"color: var(--tw-prose-bold);\">What to Expect:</span></p><ol><li><span style=\"color: var(--tw-prose-bold);\">Fun and Interactive Sessions:</span> Our sessions are designed to be fun and interactive, keeping young minds engaged and eager to learn. Through a variety of age-appropriate drills, games, and activities, children will develop their coordination, motor skills, and basketball fundamentals.</li><li><span style=\"color: var(--tw-prose-bold);\">Skill Development:</span> We emphasize the importance of building a strong foundation in basketball fundamentals. From dribbling and shooting to passing and teamwork, our experienced coaches will guide your child through each skill, ensuring proper technique and understanding.</li><li><span style=\"color: var(--tw-prose-bold);\">Teamwork and Sportsmanship:</span> In our group, children learn the value of teamwork and sportsmanship. Through collaborative drills and team-based games, they'll develop communication skills, learn to support their teammates, and understand the importance of fair play.</li><li><span style=\"color: var(--tw-prose-bold);\">Positive Environment:</span> We believe in creating a positive and supportive environment where every child feels valued and encouraged. Our coaches provide constructive feedback and praise to help boost confidence and motivation.</li><li><span style=\"color: var(--tw-prose-bold);\">Fitness and Health:</span> Basketball is a great way for children to stay active and healthy. Our sessions include plenty of movement and exercise, promoting physical fitness and overall well-being.</li></ol>",
+      "acquired_skills": null,
+      "required_provided_equipment": null,
+      "grades": false,
+      "homework": false,
+      "additional_info": null,
+      "rating_count": 0,
+      "reviews": [],
+      "rating": "0.00",
+      "categories": [
+        {
+          "id": 7,
+          "name": "basketball"
+        }
+      ],
+      "main_media_id": 1518,
+      "main_media_path": "storage/media/action-1869428_1280_1707946330.jpg",
+      "agreement_file": {
+        "id": 1521,
+        "path": "storage/media/dummy_1707946391.pdf",
+        "name": "dummy",
+        "extension": "pdf",
+        "type": "activity_document",
+        "provider_id": 40,
+        "disk": null,
+        "created_at": "2024-02-14T21:33:11.000000Z",
+        "updated_at": "2024-02-14T21:33:11.000000Z",
+        "pivot": {
+          "activity_id": 142,
+          "media_id": 1521,
+          "created_at": "2024-02-14T21:34:51.000000Z",
+          "updated_at": "2024-02-14T21:34:51.000000Z"
+        }
+      },
+      "images": [
+        {
+          "id": 1518,
+          "path": "storage/media/action-1869428_1280_1707946330.jpg",
+          "name": "action-1869428_1280",
+          "extension": "jpg",
+          "type": "activity_image",
+          "provider_id": 40,
+          "disk": null,
+          "created_at": "2024-02-14T21:32:10.000000Z",
+          "updated_at": "2024-02-14T21:32:10.000000Z",
+          "in_use": true,
+          "pivot": {
+            "activity_id": 142,
+            "media_id": 1518,
+            "created_at": "2024-02-14T21:34:51.000000Z",
+            "updated_at": "2024-02-14T21:34:51.000000Z"
+          }
+        },
+        {
+          "id": 1519,
+          "path": "storage/media/basketball-court-4158462_1280_1707946330.jpg",
+          "name": "basketball-court-4158462_1280",
+          "extension": "jpg",
+          "type": "activity_image",
+          "provider_id": 40,
+          "disk": null,
+          "created_at": "2024-02-14T21:32:10.000000Z",
+          "updated_at": "2024-02-14T21:32:10.000000Z",
+          "in_use": true,
+          "pivot": {
+            "activity_id": 142,
+            "media_id": 1519,
+            "created_at": "2024-02-14T21:44:06.000000Z",
+            "updated_at": "2024-02-14T21:44:06.000000Z"
+          }
+        },
+        {
+          "id": 1520,
+          "path": "storage/media/shoes-1011596_1280_1707946330.jpg",
+          "name": "shoes-1011596_1280",
+          "extension": "jpg",
+          "type": "activity_image",
+          "provider_id": 40,
+          "disk": null,
+          "created_at": "2024-02-14T21:32:10.000000Z",
+          "updated_at": "2024-02-14T21:32:10.000000Z",
+          "in_use": true,
+          "pivot": {
+            "activity_id": 142,
+            "media_id": 1520,
+            "created_at": "2024-02-14T21:44:06.000000Z",
+            "updated_at": "2024-02-14T21:44:06.000000Z"
+          }
+        }
+      ],
+      "in_use": true,
+      "registration_price_fixed": false
+    },
+    "location": {
+      "id": 169,
+      "name": "Drobės g. 62",
+      "address": "62, Drobės g., Žemieji Šančiai, Šančių seniūnija, Kaunas, Kauno miesto savivaldybė, Kaunas County, 45184, Lithuania",
+      "city": "Kaunas",
+      "street": "Drobės g.",
+      "house_number": "62",
+      "country": "Lithuania",
+      "timezone": null,
+      "floor_suite": null,
+      "optional_details": null,
+      "neighborhood": null,
+      "after_school_pickup": null,
+      "lat": "54.8703314",
+      "lon": "23.9498909",
+      "description": null,
+      "provider_id": 40,
+      "building_type": null,
+      "in_use": true
+    },
+    "rating": 0,
+    "reviews": 0,
+    "start_date": "2023-09-29T21:00:00.000000Z",
+    "end_date": "2024-05-25T21:00:00.000000Z",
+    "capacity": 25,
+    "min_start_places": 5,
+    "attendees": 0,
+    "active_attendees": 0,
+    "difficulty_type": {
+      "id": 39,
+      "provider_id": 40,
+      "name": "Advanced",
+      "description": null,
+      "created_at": "2024-02-14T21:37:29.000000Z",
+      "updated_at": "2024-02-14T21:37:29.000000Z",
+      "deleted_at": null
+    },
+    "group_days_schedule": [
+      {
+        "day": "6",
+        "start_time": "15:00:08",
+        "end_time": "16:00:08",
+        "duration": 60
+      },
+      {
+        "day": "7",
+        "start_time": "15:00:09",
+        "end_time": "16:00:09",
+        "duration": 60
+      }
+    ],
+    "group_status": "published",
+    "categories": [
+      "basketball"
+    ],
+    "age_group_type": "age",
+    "age_groups": [
+      3,
+      5,
+      7
+    ],
+    "is_virtual": false,
+    "image": "https://dev-api.exoclass.com/storage/media/action-1869428_1280_1707946330.jpg",
+    "product": {
+      "id": 888,
+      "provider_id": 40,
+      "type": "group"
+    },
+    "is_started": true,
+    "provider": {
+      "external_key": "7792d545-2bc6-4ee6-b96e-51bdf1d0d855",
+      "name": "Skill assessment company",
+      "phone": "+37067788999",
+      "email": "skill@assesment.com",
+      "short_name": "Skill assessment",
+      "type": "company",
+      "address": "Drobės G. 62, Kaunas 45181, Kaunas, Lithuania",
+      "website": "https://www.skillassessment.com",
+      "agreement": null,
+      "language": "lt",
+      "tutorial_completed": false,
+      "currency": {
+        "abbr": "EUR",
+        "symbol": "&euro;"
+      },
+      "currency_code": "EUR",
+      "social_links": null,
+      "logo": null,
+      "external_financing": false,
+      "legal_entity_name": null,
+      "legal_entity_personal_code": null,
+      "legal_entity_address": null,
+      "legal_entity_postal_code": null,
+      "legal_entity_phone": null,
+      "legal_entity_email": null,
+      "family_member_special_requirements": false,
+      "read_terms_and_conditions_mandatory": false,
+      "coupons": false,
+      "billing_services": [
+        {
+          "id": 1,
+          "name": "paysera"
+        }
+      ],
+      "timezone": {
+        "id": 1,
+        "name": "Europe/Vilnius",
+        "created_at": "2023-11-08T16:17:15.000000Z",
+        "updated_at": "2023-11-08T16:17:15.000000Z"
+      },
+      "billing": {
+        "settings": {
+          "id": 36,
+          "external_key": "e8bfe46a-e7c3-4e7d-ade5-f9f868a196ee",
+          "provider_id": 40,
+          "billing_mode_id": 1,
+          "billing_cycle_id": 2,
+          "billing_day": 3,
+          "created_at": "2024-02-14T21:29:17.000000Z",
+          "updated_at": "2024-02-14T21:29:17.000000Z",
+          "deleted_at": null,
+          "billing_cycle": {
+            "id": 2,
+            "external_key": "604020d7-ed9c-4b43-bee1-163c83bc30fd",
+            "name": "fixed-monthly-date",
+            "created_at": null,
+            "updated_at": null
+          },
+          "billing_mode": {
+            "id": 1,
+            "external_key": "c75c6a4e-cf03-4e40-8e6e-7308a70db29c",
+            "name": "dynamic-monthly-billing",
+            "created_at": null,
+            "updated_at": null
+          }
+        },
+        "intervals": [
+          {
+            "id": 2,
+            "external_key": "6417640f-4732-43b2-b8a3-c72f26943eef",
+            "payment_type_id": 2,
+            "name": "one-month",
+            "duration": 1,
+            "created_at": null,
+            "updated_at": null,
+            "deleted_at": null,
+            "pivot": {
+              "provider_id": 40,
+              "payment_interval_id": 2
+            },
+            "payment_type": {
+              "id": 2,
+              "type": "per-month",
+              "created_at": "2022-12-13T17:59:53.000000Z",
+              "updated_at": "2022-12-13T17:59:53.000000Z",
+              "deleted_at": null
+            }
+          },
+          {
+            "id": 12,
+            "external_key": "bd311d71-42a5-4a6c-9384-681c8343a510",
+            "payment_type_id": 2,
+            "name": "3-months",
+            "duration": 3,
+            "created_at": null,
+            "updated_at": null,
+            "deleted_at": null,
+            "pivot": {
+              "provider_id": 40,
+              "payment_interval_id": 12
+            },
+            "payment_type": {
+              "id": 2,
+              "type": "per-month",
+              "created_at": "2022-12-13T17:59:53.000000Z",
+              "updated_at": "2022-12-13T17:59:53.000000Z",
+              "deleted_at": null
+            }
+          }
+        ]
+      },
+      "monthly_billing": {
+        "id": 36,
+        "external_key": "e8bfe46a-e7c3-4e7d-ade5-f9f868a196ee",
+        "provider_id": 40,
+        "billing_mode_id": 1,
+        "billing_cycle_id": 2,
+        "billing_day": 3,
+        "created_at": "2024-02-14T21:29:17.000000Z",
+        "updated_at": "2024-02-14T21:29:17.000000Z",
+        "deleted_at": null,
+        "billing_cycle": {
+          "id": 2,
+          "external_key": "604020d7-ed9c-4b43-bee1-163c83bc30fd",
+          "name": "fixed-monthly-date",
+          "created_at": null,
+          "updated_at": null
+        },
+        "billing_mode": {
+          "id": 1,
+          "external_key": "c75c6a4e-cf03-4e40-8e6e-7308a70db29c",
+          "name": "dynamic-monthly-billing",
+          "created_at": null,
+          "updated_at": null
+        }
+      }
+    },
+    "schedule_count": 64,
+    "one_time_price": 8,
+    "price": 512,
+    "payment_intervals": [
+      {
+        "id": 2,
+        "external_key": "6417640f-4732-43b2-b8a3-c72f26943eef",
+        "payment_type_id": 2,
+        "name": "one-month",
+        "duration": 1,
+        "group_price": 64,
+        "lesson_count": 8,
+        "created_at": null,
+        "updated_at": null,
+        "payment_type": {
+          "id": 2,
+          "type": "per-month"
+        },
+        "upcoming_payment_schedule": "2024-05-03",
+        "upcoming_payment_schedule_detailed": [],
+        "upcoming_payment_schedule_amount": null
+      }
+    ]
+  }
+}
