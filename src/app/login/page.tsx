@@ -1,11 +1,12 @@
+'use client';
 import { Login } from '@/components/Login/Login/Login';
 import React from 'react';
 
 const LoginPage = () => {
   return (
-    <div>
+    <>
       <Login />
-    </div>
+    </>
   );
 };
 

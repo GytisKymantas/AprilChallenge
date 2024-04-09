@@ -9,10 +9,9 @@ import { useRouter } from 'next/navigation';
 import { useStore } from '@/store/store';
 
 export const Card = ({ data, externalKey, id = 1 }) => {
-  if (!data) {
-    return null;
-  }
-
+  // console.log(data, 'this is data');
+  const cardInformation = data.data;
+  console.log(cardInformation, 'hello');
   const { updateCards } = useStore();
   const [expandedCardId, setExpandedCardId] = useState(null);
 
@@ -32,44 +31,46 @@ export const Card = ({ data, externalKey, id = 1 }) => {
     router.push(`/card/${externalKey}`);
   };
 
-  const testHandler = (id) => {
+  const testHandler = (id: string) => {
     {
       setExpandedCardId(id);
       toggleTruncate();
     }
   };
-  const isCurrentCardExpanded = expandedCardId === id;
 
   return (
-    <OuterContainer
-      style={{ height: isCurrentCardExpanded ? '100%' : '540px' }}
-    >
+    <OuterContainer>
       <ImageContainer>
-        <Image
+        <RoundedImage
           src='/basketball_mobile.jpg'
           width={300}
           height={200}
           alt='picture of activity'
         />
         <AgeGroupContainer>
-          <AgeGroup>{getAgeGroup(data.data.activity.name)} </AgeGroup>
-          <AgeGroup>{data.data.difficulty_type.name}</AgeGroup>
+          <AgeGroup>
+            {cardInformation.age_groups.join(', ')} years old{' '}
+          </AgeGroup>
+          <AgeGroup>{cardInformation.difficulty_type.name}</AgeGroup>
         </AgeGroupContainer>
       </ImageContainer>
       <InnerContainer>
         <Flex>
           <p>
-            {Math.max(data.data.capacity - data.data.active_attendees, 0)} spots
-            left
+            {Math.max(
+              cardInformation.capacity - cardInformation.active_attendees,
+              0
+            )}{' '}
+            spots left
           </p>
           <p>
             {isActivityStarted
               ? 'Already started'
-              : formatDate(data.data.start_date)}
+              : formatDate(cardInformation.start_date)}
           </p>
         </Flex>
         <div>
-          <h2>{data.data.name} </h2>
+          <h2>{cardInformation.name} </h2>
           <p>
             {isTruncated
               ? truncatedDescription(description) + '...'
@@ -79,9 +80,9 @@ export const Card = ({ data, externalKey, id = 1 }) => {
             </ReadMoreButton>
           </p>
         </div>
-        <div>{data.data.provider.address}</div>
+        <div>{cardInformation.provider.address}</div>
         <div style={{ height: '18.5px' }}>
-          {formatTimeString(data.data.group_days_schedule)}{' '}
+          {formatTimeString(cardInformation.group_days_schedule)}{' '}
         </div>
       </InnerContainer>
       <Button onClick={() => handleSubscribe(externalKey)}>Subscribe</Button>
@@ -97,6 +98,11 @@ const AgeGroupContainer = styled.div`
   position: absolute;
   top: 10%;
   right: 5%;
+`;
+
+const RoundedImage = styled(Image)`
+  border-top-left-radius: 30px;
+  border-top-right-radius: 30px;
 `;
 
 const ReadMoreButton = styled.button`
@@ -120,12 +126,14 @@ const AgeGroup = styled.div`
   margin-left: auto;
 `;
 const InnerContainer = styled.div`
-  padding: 10px 20px 20px 20px;
+  padding: 10px 20px 10px 20px;
 `;
 
 const OuterContainer = styled.div`
   width: 300px;
-  background: gray;
+  height: 100%;
+  border-radius: 30px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add box shadow */
 `;
 
 const Flex = styled.div`
@@ -141,4 +149,6 @@ const Button = styled.button`
   background: purple;
   color: white;
   font-weight: 700;
+  border-bottom-left-radius: 30px;
+  border-bottom-right-radius: 30px;
 `;

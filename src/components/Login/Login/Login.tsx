@@ -1,15 +1,12 @@
-'use client';
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import styled from 'styled-components';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { TLoginSchema } from '@/utils/types';
+import { Credentials, Routes, StorageKeys, TLoginSchema } from '@/utils/types';
 import { LoginSchema } from '@/utils/types';
 import toast from 'react-hot-toast';
-import { useStore } from '@/store/store';
 import { useRouter } from 'next/navigation';
-
-// TODO, check what refine is
+import Link from 'next/link';
 
 export const Login = () => {
   const {
@@ -17,86 +14,116 @@ export const Login = () => {
     handleSubmit,
     formState: { errors, isSubmitting },
     getValues,
-    reset,
   } = useForm<TLoginSchema>({
     resolver: zodResolver(LoginSchema),
   });
-
   const router = useRouter();
-  const { setHaveBeenLoggedIn } = useStore();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
     const checkLoginStatus = () => {
-      const loggedInUser = localStorage.getItem('loggedInUser');
-      if (loggedInUser === 'admin@gmail.com') {
-        setIsLoggedIn(true);
+      const loggedInUser = sessionStorage.getItem(StorageKeys.loggedInUser);
+      if (loggedInUser === Credentials.AdminUsername) {
+        router.push(Routes.Home);
       }
     };
-
     checkLoginStatus();
   }, []);
 
   const onSubmit = async (data: TLoginSchema) => {
     if (
-      getValues('email') === 'admin@gmail.com' &&
-      getValues('password') === 'admin123'
+      getValues(StorageKeys.email) === Credentials.AdminUsername &&
+      getValues(StorageKeys.password) === Credentials.PasswordUsername
     ) {
       await new Promise((resolve) => setTimeout(resolve, 1000));
-      console.log('success');
-      router.push('/');
-      localStorage.setItem('loggedInUser', getValues('email'));
-      setIsLoggedIn(true);
-      setHaveBeenLoggedIn(true);
-      reset();
+      sessionStorage.setItem(
+        StorageKeys.loggedInUser,
+        getValues(StorageKeys.email)
+      );
+      router.push(Routes.Home);
     } else {
       toast.error("Incorrect email or password'");
     }
   };
 
   return (
-    <>
-      <Container>
-        {/* {errors.email ||
-        (errors.password && <p>{toast.error(errors?.email?.message)}</p>)} */}
-        <>
-          <h1>Welcome back!</h1>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <div>
-              <input
-                {...register('email')}
-                maxLength={50}
-                placeholder='email'
-              />
-            </div>
-            <input
-              {...register('password')}
+    <Container>
+      <div>
+        <h1>Welcome back!</h1>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <InputContainer>
+            <StyledInput
+              {...register(StorageKeys.email)}
               maxLength={50}
-              placeholder='password'
+              placeholder={StorageKeys.email}
+              hasError={
+                errors[StorageKeys.password] || errors[StorageKeys.email]
+              }
             />
+            <StyledInput
+              {...register(StorageKeys.password)}
+              maxLength={50}
+              placeholder={StorageKeys.password}
+              type='password'
+              hasError={
+                errors[StorageKeys.password] || errors[StorageKeys.email]
+              }
+            />
+          </InputContainer>
 
-            <button disabled={isSubmitting} type='submit'>
-              Sign in
-            </button>
-            <div>
-              <p>
-                Don't have an account? <span>Sign up</span>
-              </p>
-              <p>Forgot password?</p>
-            </div>
-          </form>
-        </>
-      </Container>
-    </>
+          <Button disabled={isSubmitting} type='submit'>
+            {isSubmitting ? 'LOADING....' : 'Sign in'}
+          </Button>
+          <div>
+            <p>
+              Don't have an account? <Link href='/'>Sign up</Link>
+            </p>
+            <Link href={Routes.Home}>Forgot password?</Link>
+          </div>
+        </form>
+      </div>
+    </Container>
   );
 };
 
 const Container = styled.div`
   position: absolute;
-  padding: 20px;
-  background: gray;
-  border: 5px solid black;
+  padding: 50px;
+  border-radius: 30px;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translateX(-50%, -50%);
+
+  ::placeholder {
+    color: purple;
+  }
+`;
+
+const Button = styled.button`
+  display: flex;
+  border: none;
+  background: purple;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: white;
+  padding: 10px 15px;
+  width: 100%;
+  justify-content: center;
+  margin: 10px auto 0 auto;
+`;
+const InputContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+`;
+
+const StyledInput = styled.input<{ hasError?: boolean }>`
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid ${({ hasError }) => (hasError ? 'red' : 'gray')};
+  outline: none;
+  transition: border-color 0.3s ease;
+
+  &:focus {
+    border-color: ${({ hasError }) => (hasError ? 'red' : 'blue')};
+  }
 `;

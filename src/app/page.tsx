@@ -1,5 +1,7 @@
 import { Card } from '@/components/Card';
 import { fetchCardDataTwo } from './api/fetchData';
+// import styled from 'styled-components';
+
 export default async function Home() {
   const datatwo = await fetchCardDataTwo();
 
@@ -25,3 +27,7 @@ export default async function Home() {
     </main>
   );
 }
+
+// const Main = styled.main`
+//   background: red;
+// `;

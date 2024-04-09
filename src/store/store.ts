@@ -1,5 +1,7 @@
 import { create } from 'zustand';
 
+
+
 export const useStore = create((set) => ({
   participants: {},
   cards: {},
@@ -7,15 +9,13 @@ export const useStore = create((set) => ({
   haveBeenLoggedIn: false,
   selectedPayment: '',
   cartItems: [],
-  increasePopulation: () => set((state) => ({ bears: state.bears + 1 })),
-  removeAllBears: () => set({ bears: 0 }),
-  updateParticipants: (newParticipants) =>
+  updateParticipants: (newParticipants : Record<string,string>) =>
     set({ participants: newParticipants }),
-  updateCards: (newCards) => set({ cards: newCards }),
-  updateExternalKeys: (key, newExternalKey) => set({ key: newExternalKey }),
+  updateCards: (newCards:any) => set({ cards: newCards }),
+  updateExternalKeys: (key:string, newExternalKey:string) => set({ key: newExternalKey }),
   updateHaveBeenLoggedIn: (newValue: boolean) =>
     set({ haveBeenLoggedIn: newValue }),
   updateSelectedPayment: (newValue: string) =>
     set({ selectedPayment: newValue }),
-    updateCartItems: (newItem) =>
-    set((state) => ({ cartItems: [...state.cartItems, newItem] })),}));
+    updateCartItems: (newItem:any) =>
+    set((state:any) => ({ cartItems: [...state.cartItems, newItem] })),}));

@@ -1,7 +1,7 @@
 import { fetchCardData } from '@/app/api/fetchData';
 import { DetailsSection } from './DetailsSection';
 
-const Bam = async ({ params }) => {
+const DynammicPage = async ({ params }: Record<string, string>) => {
   const data = await fetchCardData(params.id);
 
   return (
@@ -11,4 +11,4 @@ const Bam = async ({ params }) => {
   );
 };
 
-export default Bam;
+export default DynammicPage;

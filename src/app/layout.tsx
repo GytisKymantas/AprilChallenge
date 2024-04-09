@@ -1,5 +1,3 @@
-import { Login } from '@/components/Login/Login/Login';
-import { CardsContextProvider } from '@/context/cards';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { Toaster } from 'react-hot-toast';
@@ -18,8 +16,10 @@ export default async function RootLayout({
 }>) {
   return (
     <html lang='en'>
-      <body className={inter.className}>{children}</body>
-      <Toaster position='top-center' reverseOrder={false} />{' '}
+      <body>
+        {children}
+        <Toaster position='top-center' reverseOrder={false} />{' '}
+      </body>
     </html>
   );
 }
