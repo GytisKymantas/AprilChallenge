@@ -2,18 +2,25 @@
 import { formatTimeString } from '@/utils/date';
 import React from 'react';
 import styled from 'styled-components';
-import { PaymentModal } from './PaymentModal';
+import Image from 'next/image';
 
 export const Details = ({ data }) => {
   if (!data) {
     return null;
   }
   const cardInformation = data.data;
-  console.log(cardInformation, 'card info');
 
   return (
     <Container>
-      {/* <h2>{cardInformation.activity.name}</h2> */}
+      <div>
+        <Image
+          src='/basketball_desktop.jpg'
+          width={400}
+          height={300}
+          alt='image'
+        />
+      </div>
+      <h2>{cardInformation.activity.name}</h2>
       <GridContainer>
         <GridItem>
           <p>Age group and level</p>
@@ -53,7 +60,7 @@ export const Details = ({ data }) => {
           </p>
         </GridItem>
       </GridContainer>
-      <PaymentModal />
+      {/* <PaymentModal /> */}
     </Container>
   );
 };
@@ -72,4 +79,5 @@ const GridItem = styled.div`
 
 const Container = styled.div`
   display: flex;
+  flex-direction: column;
 `;

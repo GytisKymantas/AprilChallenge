@@ -1,19 +1,12 @@
-import { fetchCardData, fetchCardDataTwo } from '@/app/api/fetchData';
-import { useStore } from '@/store/store';
-import React from 'react';
-import { Details } from './Details';
-import { Navigation } from './Navigation';
+import { fetchCardData } from '@/app/api/fetchData';
+import { DetailsSection } from './DetailsSection';
 
 const Bam = async ({ params }) => {
-  console.log(params, 'bam params');
   const data = await fetchCardData(params.id);
-  console.log(data, 'received from BAM');
+
   return (
     <div>
-      <div>
-        <Navigation />{' '}
-      </div>
-      <Details data={data} />
+      <DetailsSection data={data} />
     </div>
   );
 };

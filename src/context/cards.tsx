@@ -10,7 +10,6 @@ export const CardsContextProvider = ({
 }: PropsWithChildren<{
   cards: any;
 }>) => {
-  console.log(cards, 'cards from context');
   const value = {
     cards,
   };

@@ -6,6 +6,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { TLoginSchema } from '@/utils/types';
 import { LoginSchema } from '@/utils/types';
 import toast from 'react-hot-toast';
+import { useStore } from '@/store/store';
+import { useRouter } from 'next/navigation';
 
 // TODO, check what refine is
 
@@ -19,7 +21,9 @@ export const Login = () => {
   } = useForm<TLoginSchema>({
     resolver: zodResolver(LoginSchema),
   });
-  console.log(errors, 'errors');
+
+  const router = useRouter();
+  const { setHaveBeenLoggedIn } = useStore();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
@@ -39,8 +43,11 @@ export const Login = () => {
       getValues('password') === 'admin123'
     ) {
       await new Promise((resolve) => setTimeout(resolve, 1000));
+      console.log('success');
+      router.push('/');
       localStorage.setItem('loggedInUser', getValues('email'));
       setIsLoggedIn(true);
+      setHaveBeenLoggedIn(true);
       reset();
     } else {
       toast.error("Incorrect email or password'");
@@ -48,39 +55,48 @@ export const Login = () => {
   };
 
   return (
-    <Container>
-      {isLoggedIn && <p>success</p>}
-      {/* {errors.email ||
+    <>
+      <Container>
+        {/* {errors.email ||
         (errors.password && <p>{toast.error(errors?.email?.message)}</p>)} */}
-      <>
-        <h1>Welcome back!</h1>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div>
-            <input {...register('email')} maxLength={50} placeholder='email' />
-          </div>
-          <input
-            {...register('password')}
-            maxLength={50}
-            placeholder='password'
-          />
+        <>
+          <h1>Welcome back!</h1>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <div>
+              <input
+                {...register('email')}
+                maxLength={50}
+                placeholder='email'
+              />
+            </div>
+            <input
+              {...register('password')}
+              maxLength={50}
+              placeholder='password'
+            />
 
-          <button disabled={isSubmitting} type='submit'>
-            Sign in
-          </button>
-          <div>
-            <p>
-              Don't have an account? <span>Sign up</span>
-            </p>
-            <p>Forgot password?</p>
-          </div>
-        </form>
-      </>
-      {/* )} */}
-    </Container>
+            <button disabled={isSubmitting} type='submit'>
+              Sign in
+            </button>
+            <div>
+              <p>
+                Don't have an account? <span>Sign up</span>
+              </p>
+              <p>Forgot password?</p>
+            </div>
+          </form>
+        </>
+      </Container>
+    </>
   );
 };
 
 const Container = styled.div`
-  width: 700px;
+  position: absolute;
+  padding: 20px;
   background: gray;
+  border: 5px solid black;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 `;

@@ -1,27 +1,64 @@
 'use client';
+import { useStore } from '@/store/store';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Participant } from './Participant';
 
-export const PaymentModal = () => {
-  const [selectedPayment, setSelectedPayment] = useState('monthlyPayment');
+export const enum RadioInputs {
+  MONTHLY = 'monthlyPayment',
+  QUARTERLY = 'quarterlyPayment',
+}
+
+export const PaymentModal = ({ setSidebarOpen, data }) => {
+  const { data: cardData } = data;
+  const [selectedPayment, setSelectedPayment] = useState(RadioInputs.MONTHLY);
+  const [participants, setParticipants] = useState([
+    {
+      id: 1,
+      name: 'John Doe',
+      age: '8',
+    },
+  ]);
+  const [newParticipant, setNewParticipant] = useState({
+    name: '',
+    age: '',
+  });
+  const { updateSelectedPayment, updateParticipants, updateCartItems } =
+    useStore();
 
   const handlePaymentChange = (event) => {
     setSelectedPayment(event.target.id);
+    console.log(selectedPayment, 'paymen');
+  };
+
+  console.log(cardData, 'this is data');
+  console.log(useStore(), 'store added?!!?!');
+
+  const handleAddToCart = () => {
+    updateSelectedPayment(selectedPayment);
+    updateParticipants(participants);
+    updateCartItems({ id: cardData.id, name: cardData.name });
+    console.log(useStore(), 'store added?!!?!');
+    setSidebarOpen(true);
   };
 
   return (
     <Container>
-      <Participant />
+      <Participant
+        participants={participants}
+        newParticipant={newParticipant}
+        setParticipants={setParticipants}
+        setNewParticipant={setNewParticipant}
+      />
       <h2>Subscription Options</h2>
       <div>
         <input
           type='radio'
-          id='monthlyPayment'
+          id={RadioInputs.MONTHLY}
           onChange={handlePaymentChange}
-          checked={selectedPayment === 'monthlyPayment'}
+          checked={selectedPayment === RadioInputs.MONTHLY}
         />
-        <label htmlFor='monthlyPayment'>Monthly payment</label>
+        <label htmlFor={RadioInputs.MONTHLY}>Monthly payment</label>
         <div>
           <p>
             Charged every month on the 3rd of the month. Initial payment is for
@@ -35,11 +72,11 @@ export const PaymentModal = () => {
       <div>
         <input
           type='radio'
-          id='quarterlyPayment'
+          id={RadioInputs.QUARTERLY}
           onChange={handlePaymentChange}
-          checked={selectedPayment === 'quarterlyPayment'}
+          checked={selectedPayment === RadioInputs.QUARTERLY}
         />
-        <label htmlFor='quarterlyPayment'>Quarterly payment</label>
+        <label htmlFor={RadioInputs.QUARTERLY}>Quarterly payment</label>
         <div>
           <p>
             Charged every 3 months on the 3rd of the month. Initial payment is
@@ -57,7 +94,13 @@ export const PaymentModal = () => {
         <p>Subtotal:</p>
         <p>$64.00</p>
       </div>
-      <button>Add to cart</button>
+      <button
+        type='button'
+        onClick={handleAddToCart}
+        disabled={!participants.length}
+      >
+        Add to cart
+      </button>
     </Container>
   );
 };
