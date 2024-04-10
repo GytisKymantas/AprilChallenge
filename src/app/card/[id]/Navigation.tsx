@@ -2,18 +2,30 @@
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { usePathname } from 'next/navigation';
-import { pathStringToObject } from '@/utils/general';
+import { findKeyByValue, pathStringToObject } from '@/utils/general';
 import styled from 'styled-components';
 import Link from 'next/link';
 import { useStore } from '@/store/store';
 import { formatTimeString } from '@/utils/date';
-import { RadioInputs } from './PaymentModal';
 import { useShallow } from 'zustand/react/shallow';
+import Image from 'next/image';
+import { Separation } from './PaymentModal';
+import { Routes } from '@/utils/types';
+import { PageEndpoints } from '@/utils/constants';
 
-export const Navigation = ({ data, sidebarOpen, setSidebarOpen }) => {
+interface NavigationProps {
+  sidebarOpen: boolean;
+  setSidebarOpen: (value: boolean) => void;
+}
+export const Navigation = ({
+  sidebarOpen,
+  setSidebarOpen,
+}: NavigationProps) => {
   const router = useRouter();
   const pathname = usePathname();
   const pathnameObject = pathStringToObject(pathname);
+  const previousPath = Object.keys(pathnameObject);
+  const cardNumber = findKeyByValue(PageEndpoints, pathnameObject.card);
 
   const { selectedPayment, participants, cartItems } = useStore(
     useShallow((state) => ({
@@ -22,57 +34,77 @@ export const Navigation = ({ data, sidebarOpen, setSidebarOpen }) => {
       cartItems: state.cartItems,
     }))
   );
-  const cardInformation = data.data;
-  console.log(cardInformation, 'data');
-  console.log(participants, 'participants inside');
-  console.log(selectedPayment, 'selectedPayment inside');
-  console.log(useStore(), 'useStoreuseStoreuseStoreuseStore');
-  const previousPath = Object.keys(pathnameObject);
-  const currentPath = Object.values(pathnameObject);
 
-  const toggleSidebar = () => {
-    setSidebarOpen(!sidebarOpen);
-  };
-
-  const Sidebar = ({ sidebarOpen, onClose }) => {
+  const Sidebar = () => {
     return (
       <SidebarContainer sidebarOpen={sidebarOpen}>
+        <h2>My cart {cartItems?.length}</h2>
         {selectedPayment ? (
           <>
-            <h2>My cart 1</h2>
-            <CloseButton onClick={onClose}>Close</CloseButton>
-            <SidebarContent>
-              {/* Add your sidebar content here */}
-              <h2>{cardInformation.activity.name}</h2>
-              <p>This is the content of the sidebar.</p>
+            {cartItems.map((item: any) => {
+              const cartItem = item;
+              return (
+                <div key={cartItem?.id}>
+                  <ImageContainer>
+                    <Image
+                      src='/basketball_mobile.jpg'
+                      width={300}
+                      height={200}
+                      alt='basketball picture'
+                    />
+                  </ImageContainer>
+                  <CloseButton onClick={() => setSidebarOpen(false)}>
+                    Close
+                  </CloseButton>
+                  <SidebarContent>
+                    <h2>{cartItem?.activity.name}</h2>
+                    <p>This is the content of the sidebar.</p>
 
-              <p>
-                Adress: {cardInformation?.location.name}{' '}
-                {cardInformation.location.city}
-              </p>
-              <p>
-                Participant:
-                {participants.map((obj) => `${obj.name}`)}{' '}
-              </p>
-              <p>Duration: {cardInformation.activity.name}</p>
-              <p>
-                Schedule:{' '}
-                {formatTimeString(cardInformation.group_days_schedule)}
-              </p>
-              <p>Level: {cardInformation.difficulty_type.name}</p>
-              <p>
-                Age group: {cardInformation.age_groups.join(', ')} year olds -{' '}
-              </p>
-              <p>Price: {cardInformation.activity.name}</p>
-
-              <p>
-                Total{' '}
-                {selectedPayment === RadioInputs.MONTHLY
-                  ? '$64.00 month'
-                  : '$192.00/3 months'}
-              </p>
-              <button onClick={() => router.push('/success')}>Checkout</button>
-            </SidebarContent>
+                    <p>
+                      Adress: {cartItem?.location.name} {cartItem.location.city}
+                    </p>
+                    <p>
+                      Participants:
+                      {participants.map((obj) => (
+                        <div>
+                          {obj.name} - {obj.age} years old
+                        </div>
+                      ))}{' '}
+                    </p>
+                    <p>Duration: {cartItem.activity.name}</p>
+                    <p>
+                      Schedule: {formatTimeString(cartItem.group_days_schedule)}
+                    </p>
+                    <p>Level: {cartItem.difficulty_type.name}</p>
+                    <p>
+                      Age group: {cartItem.age_groups.join(', ')} - year olds{' '}
+                    </p>
+                    <p>Price: ${cartItem.activityPrice} </p>
+                  </SidebarContent>
+                  <Separation />
+                </div>
+              );
+            })}
+            <PriceContainer>
+              <span>
+                <b>TOTAL: </b>
+              </span>{' '}
+              <span>
+                $
+                {cartItems.reduce(
+                  (
+                    accumulator: number,
+                    currentValue: { activityPrice: number }
+                  ) => {
+                    return accumulator + currentValue.activityPrice;
+                  },
+                  0
+                )}{' '}
+              </span>
+            </PriceContainer>
+            <ButtonPurple onClick={() => router.push(Routes.Success)}>
+              Checkout
+            </ButtonPurple>
           </>
         ) : (
           <>
@@ -86,43 +118,82 @@ export const Navigation = ({ data, sidebarOpen, setSidebarOpen }) => {
   return (
     <Container>
       <Flex>
-        <div>
-          <button onClick={() => router.back()}>go back</button>
+        <Flex>
+          <Button onClick={() => router.back()}> Back</Button>
           <span>
-            <Link href={`/`}>{previousPath}</Link>/{' '}
-            <Link href={`/${currentPath}`}>{currentPath}</Link>
+            <LinkStyled href={`/`}>{previousPath}</LinkStyled> /{' '}
+            <LinkStyled href='#'>{cardNumber}</LinkStyled>
           </span>
-        </div>
-        <span onClick={toggleSidebar}>Cart {cartItems?.length} </span>
+        </Flex>
+        <CartLogo onClick={() => setSidebarOpen(!sidebarOpen)}>
+          Cart {cartItems?.length}{' '}
+        </CartLogo>
       </Flex>
-      {sidebarOpen && (
-        <Sidebar sidebarOpen={sidebarOpen} onClose={toggleSidebar} />
-      )}
+      {sidebarOpen && <Sidebar />}
     </Container>
   );
 };
 
+const LinkStyled = styled(Link)`
+  text-decoration: none;
+  color: gray;
+`;
+const ImageContainer = styled.div`
+  position: relative;
+`;
+
+const CartLogo = styled.span`
+  background: gray;
+  padding: 10px;
+  border-radius: 100%;
+`;
+const PriceContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  margin-right: 20px;
+  gap: 10px;
+`;
+const Button = styled.button`
+  border: none;
+  background: none;
+  font-weight: 700;
+  cursor: pointer;
+  border: 1px solid black;
+  border-radius: 5px;
+`;
+
+const ButtonPurple = styled(Button)`
+  background: purple;
+  color: white;
+  padding: 10px 15px;
+  margin-top: 20px;
+  width: 100%;
+`;
+
 const Container = styled.div`
-  background: azure;
   padding: 20px;
 `;
 const Flex = styled.div`
   display: flex;
   justify-content: space-between;
+  align-items: center;
   gap: 20px;
 `;
 
-const SidebarContainer = styled.div`
+const SidebarContainer = styled.div<{ sidebarOpen?: boolean }>`
+  padding: 10px;
   position: fixed;
   top: 0;
   right: ${({ sidebarOpen }) => (sidebarOpen ? '0' : '-300px')};
   width: 300px;
-  height: 100vh;
   background-color: #fff;
   box-shadow: ${({ sidebarOpen }) =>
     sidebarOpen ? '0px 0px 10px rgba(0, 0, 0, 0.2)' : 'none'};
   transition: right 0.3s ease-in-out;
   z-index: 1000;
+  overflow: scroll;
+  max-height: ${({ sidebarOpen }) => (sidebarOpen ? '100vh' : '0')};
 `;
 
 const SidebarContent = styled.div`

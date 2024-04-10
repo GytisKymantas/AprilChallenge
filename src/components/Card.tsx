@@ -1,28 +1,26 @@
 'use client';
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import Image from 'next/image';
 import { formatDate, formatTimeString } from '@/utils/date';
-import { cleanDescription, getAgeGroup } from '@/utils/general';
+import { cleanDescription } from '@/utils/general';
 import useDescriptionTruncation from '@/hooks/use-truncate';
 import { useRouter } from 'next/navigation';
 import { useStore } from '@/store/store';
 
-export const Card = ({ data, externalKey, id = 1 }) => {
-  // console.log(data, 'this is data');
-  const cardInformation = data.data;
-  console.log(cardInformation, 'hello');
+interface CardProps {
+  data: any;
+  externalKey: string;
+}
+export const Card = ({ data, externalKey }: CardProps) => {
+  const router = useRouter();
   const { updateCards } = useStore();
-  const [expandedCardId, setExpandedCardId] = useState(null);
-
-  useEffect(() => {
-    updateCards(data);
-  }, []);
-
   const { isTruncated, toggleTruncate, truncatedDescription } =
     useDescriptionTruncation();
-  const router = useRouter();
-  const description = data.data.activity.description;
+
+  const cardInformation = data.data;
+  const description = cardInformation.activity.description;
+
   const currentDate = new Date();
   const startDate = new Date(data.start_date);
   const isActivityStarted = startDate <= currentDate;
@@ -31,12 +29,9 @@ export const Card = ({ data, externalKey, id = 1 }) => {
     router.push(`/card/${externalKey}`);
   };
 
-  const testHandler = (id: string) => {
-    {
-      setExpandedCardId(id);
-      toggleTruncate();
-    }
-  };
+  useEffect(() => {
+    updateCards(data);
+  }, []);
 
   return (
     <OuterContainer>
@@ -75,7 +70,7 @@ export const Card = ({ data, externalKey, id = 1 }) => {
             {isTruncated
               ? truncatedDescription(description) + '...'
               : cleanDescription(description)}
-            <ReadMoreButton onClick={() => testHandler(id)}>
+            <ReadMoreButton onClick={toggleTruncate}>
               {isTruncated ? 'Read more' : 'Read less'}
             </ReadMoreButton>
           </p>
@@ -100,7 +95,7 @@ const AgeGroupContainer = styled.div`
   right: 5%;
 `;
 
-const RoundedImage = styled(Image)`
+export const RoundedImage = styled(Image)`
   border-top-left-radius: 30px;
   border-top-right-radius: 30px;
 `;

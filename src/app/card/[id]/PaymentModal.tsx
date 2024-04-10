@@ -1,18 +1,21 @@
 'use client';
 import { useStore } from '@/store/store';
-import React, { useState } from 'react';
+import { PaymentTypes } from '@/utils/types';
+import React, { ChangeEvent, useState } from 'react';
 import styled from 'styled-components';
-import { Participant } from './Participant';
+import { Header } from './Details';
+import { Participant, TParticipant } from './Participant';
 
-export const enum RadioInputs {
-  MONTHLY = 'monthlyPayment',
-  QUARTERLY = 'quarterlyPayment',
+interface PaymentModalProps {
+  data: any;
+  setSidebarOpen: (value: Boolean) => void;
 }
-
-export const PaymentModal = ({ setSidebarOpen, data }) => {
+export const PaymentModal = ({ setSidebarOpen, data }: PaymentModalProps) => {
   const { data: cardData } = data;
-  const [selectedPayment, setSelectedPayment] = useState(RadioInputs.MONTHLY);
-  const [participants, setParticipants] = useState([
+  const [selectedPayment, setSelectedPayment] = useState<string>(
+    PaymentTypes.MONTHLY
+  );
+  const [participants, setParticipants] = useState<TParticipant[]>([
     {
       id: 1,
       name: 'John Doe',
@@ -23,89 +26,153 @@ export const PaymentModal = ({ setSidebarOpen, data }) => {
     name: '',
     age: '',
   });
-  const { updateSelectedPayment, updateParticipants, updateCartItems } =
-    useStore();
+  const {
+    updateSelectedPayment,
+    updateParticipants,
+    updateCartItems,
+    cartItems,
+  } = useStore();
 
-  const handlePaymentChange = (event) => {
-    setSelectedPayment(event.target.id);
-    console.log(selectedPayment, 'paymen');
+  const handleCartUpdating = () => {
+    const _cardData = [
+      {
+        ...cardData,
+        activityPrice: selectedPayment === PaymentTypes.MONTHLY ? 194 : 64,
+      },
+    ] as any;
+
+    const isIdPresentInBam = _cardData.some((item: any) =>
+      cartItems.some((_cardDataItem: any) => _cardDataItem.id === item.id)
+    );
+
+    if (!isIdPresentInBam) {
+      updateCartItems({
+        ...cardData,
+        activityPrice: selectedPayment === PaymentTypes.MONTHLY ? 194 : 64,
+      });
+    }
   };
 
-  console.log(cardData, 'this is data');
-  console.log(useStore(), 'store added?!!?!');
+  const handlePaymentChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setSelectedPayment(event.target.id);
+  };
 
   const handleAddToCart = () => {
     updateSelectedPayment(selectedPayment);
     updateParticipants(participants);
-    updateCartItems({ id: cardData.id, name: cardData.name });
-    console.log(useStore(), 'store added?!!?!');
+    handleCartUpdating();
     setSidebarOpen(true);
   };
 
   return (
-    <Container>
-      <Participant
-        participants={participants}
-        newParticipant={newParticipant}
-        setParticipants={setParticipants}
-        setNewParticipant={setNewParticipant}
-      />
-      <h2>Subscription Options</h2>
-      <div>
-        <input
-          type='radio'
-          id={RadioInputs.MONTHLY}
-          onChange={handlePaymentChange}
-          checked={selectedPayment === RadioInputs.MONTHLY}
+    <div>
+      <Container>
+        <Participant
+          participants={participants}
+          newParticipant={newParticipant}
+          setParticipants={setParticipants}
+          setNewParticipant={setNewParticipant}
         />
-        <label htmlFor={RadioInputs.MONTHLY}>Monthly payment</label>
-        <div>
-          <p>
-            Charged every month on the 3rd of the month. Initial payment is for
-            1 month upfront; subsequent payments are adjusted every month for
-            the actual number of lessons.
-          </p>
-          <span>$64.00/mon</span>
-        </div>
-      </div>
-
-      <div>
-        <input
-          type='radio'
-          id={RadioInputs.QUARTERLY}
-          onChange={handlePaymentChange}
-          checked={selectedPayment === RadioInputs.QUARTERLY}
-        />
-        <label htmlFor={RadioInputs.QUARTERLY}>Quarterly payment</label>
-        <div>
-          <p>
-            Charged every 3 months on the 3rd of the month. Initial payment is
-            for 3 months upfront; subsequent payments are adjusted every month
-            for the actual number of lessons.
-          </p>
-          <span>$192.00/3 months</span>
-        </div>
-      </div>
-      <p>
-        *note: Monthly price varies depending on the number of scheduled classes
-        in that month,
-      </p>
-      <div>
-        <p>Subtotal:</p>
-        <p>$64.00</p>
-      </div>
-      <button
+        <Separation />
+        <Header>Payment Options</Header>
+        <Flex>
+          <input
+            type='radio'
+            id={PaymentTypes.MONTHLY}
+            onChange={handlePaymentChange}
+            checked={selectedPayment === PaymentTypes.MONTHLY}
+          />
+          <div>
+            <label htmlFor={PaymentTypes.MONTHLY}>Monthly payment</label>
+            <p>
+              Charged every month on the 3rd of the month. Initial payment is
+              for 1 month upfront; subsequent payments are adjusted every month
+              for the actual number of lessons.
+            </p>
+          </div>
+          <span>$64.00 / mon</span>
+        </Flex>
+        <Separation />
+        <Flex>
+          <input
+            type='radio'
+            id={PaymentTypes.QUARTERLY}
+            onChange={handlePaymentChange}
+            checked={selectedPayment === PaymentTypes.QUARTERLY}
+          />
+          <div>
+            <label htmlFor={PaymentTypes.QUARTERLY}>Quarterly payment</label>
+            <p>
+              Charged every 3 months on the 3rd of the month. Initial payment is
+              for 3 months upfront; subsequent payments are adjusted every month
+              for the actual number of lessons.
+            </p>
+          </div>
+          <span>$192.00 / 3 months</span>
+        </Flex>
+        <Separation />
+        <SubtotalContainer>
+          <p>SUBTOTAL:</p>
+          <span>
+            {selectedPayment === PaymentTypes.QUARTERLY ? '$192.00' : '$64.00'}
+          </span>
+        </SubtotalContainer>
+      </Container>
+      <Button
         type='button'
         onClick={handleAddToCart}
         disabled={!participants.length}
       >
         Add to cart
-      </button>
-    </Container>
+      </Button>
+    </div>
   );
 };
 
+export const Separation = styled.div`
+  content: '';
+  border-bottom: 2px solid gray;
+  height: 1px;
+  width: 100%;
+  margin: 10px 0;
+`;
 const Container = styled.div`
-  background: gray;
-  padding: 20px;
+  border: 1px solid black;
+
+  label {
+    font-weight: 700;
+    text-transform: uppercase;
+    text-decoration: underline;
+  }
+
+  p {
+    max-width: 350px;
+    margin-top: 5px;
+  }
+
+  span {
+    color: gray;
+  }
+`;
+
+const Flex = styled.div`
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 0 20px;
+`;
+
+const SubtotalContainer = styled(Flex)`
+  justify-content: Space-between;
+  padding: 0 20px;
+`;
+
+const Button = styled.button`
+  width: 100%;
+  background: purple;
+  border: none;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: white;
+  padding: 20px 15px;
 `;

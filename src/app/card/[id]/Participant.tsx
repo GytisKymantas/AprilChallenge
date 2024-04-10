@@ -1,20 +1,51 @@
 import { useStore } from '@/store/store';
-import React, { useState } from 'react';
+import React, { ChangeEvent, useState } from 'react';
+import { useForm } from 'react-hook-form';
 import styled from 'styled-components';
+import { Header } from './Details';
+import { Separation } from './PaymentModal';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { StorageKeys, TParticipantSchema } from '@/utils/types';
+import { ParticipantSchema } from '@/utils/types';
+import { StyledInput } from '@/app/login/page';
+
+export type TParticipant = {
+  id?: number;
+  name: string;
+  age: string;
+};
+
+interface ParticipantProps {
+  setParticipants: React.Dispatch<React.SetStateAction<TParticipant[]>>;
+  setNewParticipant: React.Dispatch<React.SetStateAction<TParticipant>>;
+  participants: TParticipant[];
+  newParticipant: TParticipant;
+}
 
 export const Participant = ({
   setParticipants,
   setNewParticipant,
   newParticipant,
   participants,
-}) => {
+}: ParticipantProps) => {
   const { updateParticipants } = useStore();
   const [isEditDisplayed, setIsEditDisplayed] = useState(false);
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+    reset,
+  } = useForm<TParticipantSchema>({
+    resolver: zodResolver(ParticipantSchema),
+  });
 
-  const handleInputChange = (event, field) => {
+  const handleInputChange = (
+    event: ChangeEvent<HTMLInputElement>,
+    field: string
+  ) => {
     setNewParticipant({
       ...newParticipant,
-      [field]: event.target.value,
+      [field]: event?.target?.value,
     });
   };
 
@@ -34,9 +65,10 @@ export const Participant = ({
       name: '',
       age: '',
     });
+    reset();
   };
 
-  const handleDeleteParticipant = (id) => {
+  const handleDeleteParticipant = (id: number) => {
     setParticipants(
       participants.filter((participant) => participant.id !== id)
     );
@@ -45,46 +77,106 @@ export const Participant = ({
 
   return (
     <div>
-      <h2>Selected participants:</h2>
-      {participants.map((participant) => (
+      <Header>Selected participants:</Header>
+      <Separation />
+      {participants.map((participant, id) => (
         <Flex key={participant.id}>
-          <img src='#' alt='logo' />
-          <div>
-            <h3>{participant.name}</h3>
-            <p>{participant.age}</p>
+          <p style={{ width: '60px' }}>User {id + 1}</p>
+          <div style={{ width: '150px' }}>
+            <UserTitle>Name:{participant.name}</UserTitle>
+            <StyledSubtitle>age:{participant.age}</StyledSubtitle>
           </div>
-          <button onClick={() => handleDeleteParticipant(participant.id)}>
-            Delete
-          </button>
+          <DeleteButton onClick={() => handleDeleteParticipant(id)}>
+            x
+          </DeleteButton>
         </Flex>
       ))}
-      <div>
+
+      <InputOuterContainer>
         {isEditDisplayed && (
-          <div>
-            <input
-              type='text'
-              placeholder='Name'
-              value={newParticipant.name}
-              onChange={(e) => handleInputChange(e, 'name')}
-            />
-            <input
-              type='text'
-              placeholder='Age'
-              value={newParticipant.age}
-              onChange={(e) => handleInputChange(e, 'age')}
-            />
-            <button onClick={handleAddNewParticipant}>+</button>
-          </div>
+          <form onSubmit={handleSubmit(handleAddNewParticipant)}>
+            <InputInnerContainer>
+              <>
+                <StyledInput
+                  {...register(StorageKeys.name)}
+                  type='text'
+                  placeholder={StorageKeys.name}
+                  hasError={!!errors?.name?.message}
+                  onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                    handleInputChange(e, StorageKeys.name)
+                  }
+                />
+                {errors?.name?.message && (
+                  <ErrorMessage>{errors?.name?.message}</ErrorMessage>
+                )}
+              </>
+              <>
+                <StyledInput
+                  {...register(StorageKeys.age)}
+                  type='number'
+                  placeholder={StorageKeys.age}
+                  hasError={!!errors?.age?.message}
+                  onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                    handleInputChange(e, StorageKeys.age)
+                  }
+                />
+                {errors?.age?.message && (
+                  <ErrorMessage>{errors.age.message}</ErrorMessage>
+                )}
+              </>
+
+              <button type='submit'>+</button>
+            </InputInnerContainer>
+          </form>
         )}
-        <button onClick={() => setIsEditDisplayed((prevValue) => !prevValue)}>
+        <Button onClick={() => setIsEditDisplayed((prevValue) => !prevValue)}>
           + Add new
-        </button>
-      </div>
+        </Button>
+      </InputOuterContainer>
     </div>
   );
 };
 
+const InputOuterContainer = styled.div`
+  display: flex;
+  align-items: center;
+  flex-direction: column-reverse;
+`;
+
+const InputInnerContainer = styled(InputOuterContainer)`
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 10px;
+`;
+
 const Flex = styled.div`
   display: flex;
   align-items: center;
+  gap: 6px;
+  justify-content: space-around;
+  margin-bottom: 10px;
+`;
+
+const ErrorMessage = styled.span`
+  color: crimson;
+`;
+const Button = styled.button`
+  display: flex;
+  justify-content: flex-end;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 10px 15px;
+  margin: 10px 0;
+`;
+
+const DeleteButton = styled(Button)`
+  padding: 4px 6px;
+`;
+const UserTitle = styled.h3`
+  margin: 0;
+`;
+const StyledSubtitle = styled.p`
+  margin: 0;
 `;
