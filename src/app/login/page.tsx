@@ -87,16 +87,15 @@ const Login = () => {
 };
 
 export default Login;
+
 const Container = styled.div`
-  position: absolute;
-  padding: 50px;
-  border-radius: 30px;
-  top: 50%;
-  left: 50%;
-  transform: translateX(-50%, -50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   ::placeholder {
     color: purple;
+    text-transform: capitalize;
   }
 `;
 
@@ -127,5 +126,9 @@ export const StyledInput = styled.input<{ hasError?: boolean }>`
 
   &:focus {
     border-color: ${({ hasError }) => (hasError ? 'red' : 'blue')};
+  }
+
+  ::placeholder: {
+    text-transform: capitalize;
   }
 `;
