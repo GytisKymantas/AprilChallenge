@@ -1,4 +1,4 @@
-import { number, z } from 'zod';
+import { z } from 'zod';
 export type TLoginSchema = z.infer<typeof LoginSchema>;
 export type TParticipantSchema = z.infer<typeof ParticipantSchema>;
 

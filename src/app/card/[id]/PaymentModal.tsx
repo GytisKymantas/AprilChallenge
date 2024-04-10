@@ -1,14 +1,14 @@
 'use client';
 import { useStore } from '@/store/store';
 import { PaymentTypes } from '@/utils/types';
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, Dispatch, SetStateAction, useState } from 'react';
 import styled from 'styled-components';
 import { Header } from './Details';
 import { Participant, TParticipant } from './Participant';
 
 interface PaymentModalProps {
   data: any;
-  setSidebarOpen: (value: Boolean) => void;
+  setSidebarOpen: Dispatch<SetStateAction<boolean>>;
 }
 export const PaymentModal = ({ setSidebarOpen, data }: PaymentModalProps) => {
   const { data: cardData } = data;

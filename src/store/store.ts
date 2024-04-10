@@ -4,21 +4,19 @@ import { create } from 'zustand';
 interface IUseStore {
   participants:{name:string,age:string}[];
   cards:any;
-  externalKeys: any,
   haveBeenLoggedIn: boolean,
   selectedPayment: string,
   cartItems: any,
-  updateParticipants:any;
+  updateParticipants:(value:{name:string,age:string}[])=>void;
   updateCards:any;
-  updateHaveBeenLoggedIn:any;
-  updateSelectedPayment:any;
+  updateHaveBeenLoggedIn:(value:boolean)=>void;
+  updateSelectedPayment:(value:string)=>void;
   updateCartItems:any;
 }
 
 export const useStore = create<IUseStore>((set) => ({
   participants: [],
   cards: {},
-  externalKeys: {},
   haveBeenLoggedIn: false,
   selectedPayment: '',
   cartItems: [],

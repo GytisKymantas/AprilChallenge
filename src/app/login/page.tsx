@@ -57,7 +57,7 @@ const Login = () => {
               maxLength={50}
               placeholder={StorageKeys.email}
               hasError={
-                errors[StorageKeys.password] || errors[StorageKeys.email]
+                !!errors[StorageKeys.password] || !!errors[StorageKeys.email]
               }
             />
             <StyledInput
@@ -66,7 +66,7 @@ const Login = () => {
               placeholder={StorageKeys.password}
               type='password'
               hasError={
-                errors[StorageKeys.password] || errors[StorageKeys.email]
+                !!errors[StorageKeys.password] || !!errors[StorageKeys.email]
               }
             />
           </InputContainer>

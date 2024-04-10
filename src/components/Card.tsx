@@ -128,7 +128,7 @@ const OuterContainer = styled.div`
   width: 300px;
   height: 100%;
   border-radius: 30px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add box shadow */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 `;
 
 const Flex = styled.div`

@@ -73,13 +73,12 @@ export const Details = ({ data }: any) => {
 };
 
 const StyledImage = styled(Image)`
-  width: 100%; /* Make sure the image fills its container */
-  height: auto; /* Maintain aspect ratio */
+  width: 100%;
+  height: auto;
 
-  /* Media query for smaller screens */
   @media screen and (max-width: 768px) {
-    width: 100%; /* Adjust width for smaller screens */
-    height: auto; /* Maintain aspect ratio */
+    width: 100%;
+    height: auto;
   }
 `;
 const GridContainer = styled.div`

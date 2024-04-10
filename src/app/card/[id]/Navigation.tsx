@@ -1,6 +1,6 @@
 'use client';
 import { useRouter } from 'next/navigation';
-import React, { useState } from 'react';
+import React from 'react';
 import { usePathname } from 'next/navigation';
 import { findKeyByValue, pathStringToObject } from '@/utils/general';
 import styled from 'styled-components';
@@ -65,8 +65,8 @@ export const Navigation = ({
                     </p>
                     <p>
                       Participants:
-                      {participants.map((obj) => (
-                        <div>
+                      {participants.map((obj, idx) => (
+                        <div key={idx}>
                           {obj.name} - {obj.age} years old
                         </div>
                       ))}{' '}
